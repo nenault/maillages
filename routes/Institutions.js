@@ -33,9 +33,13 @@ router.post("/", async (req, res, next) => {
 router.patch("/:id", async (req, res, next) => {
   try {
     const updatedInstitution = req.body;
-    const apiRes = await Institution.findByIdAndUpdate(req.params.id, updatedInstitution, {
-      new: true,
-    });
+    const apiRes = await Institution.findByIdAndUpdate(
+      req.params.id,
+      updatedInstitution,
+      {
+        new: true,
+      }
+    );
     res.status(200).json(apiRes);
   } catch (err) {
     res.status(500).json(err);

@@ -52,7 +52,7 @@ const ContactSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  institutions: {
+  institution: {
     type: Schema.Types.ObjectId,
     ref: "Institution",
     default: null,
@@ -68,6 +68,10 @@ const ContactSchema = new Schema({
   isActive: {
     type: Boolean,
     default: true,
+  },
+  institution_code: {
+    type: String,
+    default: null,
   },
 });
 
