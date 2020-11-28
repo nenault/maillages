@@ -42,7 +42,7 @@ app.use(function (req, res, next) {
 
 const authRouter = require("./routes/auth");
 const UserRouter = require("./routes/Users");
-const ContactRouter = require("./routes/Contacts");
+const ContacgtRouter = require("./routes/Contacts");
 const InstitutionsRouter = require("./routes/Institutions");
 const CallsRouter = require("./routes/Calls");
 
@@ -51,6 +51,13 @@ app.use("/api/users", UserRouter);
 app.use("/api/contacts", ContactRouter);
 app.use("/api/institutions", InstitutionsRouter);
 app.use("/api/calls", CallsRouter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(__dirname + "/public/index.html");
+  });
+}
 
 // 404 Middleware
 app.use((req, res, next) => {
