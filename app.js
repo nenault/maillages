@@ -42,7 +42,7 @@ app.use(function (req, res, next) {
 
 const authRouter = require("./routes/auth");
 const UserRouter = require("./routes/Users");
-const ContacgtRouter = require("./routes/Contacts");
+const ContactRouter = require("./routes/Contacts");
 const InstitutionsRouter = require("./routes/Institutions");
 const CallsRouter = require("./routes/Calls");
 
