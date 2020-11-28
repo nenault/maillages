@@ -22,6 +22,7 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
+    console.log(req.body);
     const newCall = req.body;
     const apiRes = await Call.create(newCall);
     res.status(201).json(apiRes);

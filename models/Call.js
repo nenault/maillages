@@ -8,6 +8,10 @@ const callSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  empty: {
+    type: Boolean,
+    default: false,
+  },
   creator: String,
   creatorId: {
     type: Schema.Types.ObjectId,
