@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const Volunteer = require("../models/Volunteer");
 
 const salt = 10;
 
@@ -13,11 +14,14 @@ router.post("/signin", (req, res, next) => {
         return res.status(400).json({ message: "Invalid credentials" });
       }
 
-      const isValidPassword = bcrypt.compareSync(password, userDocument.password);
+      const isValidPassword = bcrypt.compareSync(
+        password,
+        userDocument.password
+      );
       if (!isValidPassword) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
-      
+
       req.session.currentUser = userDocument._id;
       res.redirect("/api/auth/isLoggedIn");
     })
@@ -25,7 +29,7 @@ router.post("/signin", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password } = req.body;
 
   User.findOne({ email })
     .then((userDocument) => {
@@ -33,14 +37,26 @@ router.post("/signup", (req, res, next) => {
         return res.status(400).json({ message: "Email already taken" });
       }
 
-      const hashedPassword = bcrypt.hashSync(password, salt);
-      const newUser = { email, lastName, firstName, password: hashedPassword };
+      Volunteer.findOne({ email })
+        .then((isVolunteer) => {
+          if (isVolunteer) {
+            Volunteer.findByIdAndDelete(isVolunteer._id)
+              .then((deleteRes) => {
+                const hashedPassword = bcrypt.hashSync(password, salt);
+                const newUser = { email, password: hashedPassword };
 
-      User.create(newUser)
-        .then((newUserDocument) => {
-          /* Login on signup */
-          req.session.currentUser = newUserDocument._id;
-          res.redirect("/api/auth/isLoggedIn");
+                User.create(newUser)
+                  .then((newUserDocument) => {
+                    /* Login on signup */
+                    req.session.currentUser = newUserDocument._id;
+                    res.redirect("/api/auth/isLoggedIn");
+                  })
+                  .catch(next);
+              })
+              .catch(next);
+          } else {
+            return res.status(400).json({ message: "Email not allowed" });
+          }
         })
         .catch(next);
     })

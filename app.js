@@ -45,12 +45,14 @@ const UserRouter = require("./routes/Users");
 const ContactRouter = require("./routes/Contacts");
 const InstitutionsRouter = require("./routes/Institutions");
 const CallsRouter = require("./routes/Calls");
+const VolunteerRouter = require("./routes/Volunteers");
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", UserRouter);
 app.use("/api/contacts", ContactRouter);
 app.use("/api/institutions", InstitutionsRouter);
 app.use("/api/calls", CallsRouter);
+app.use("/api/volunteers", VolunteerRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use("*", (req, res, next) => {

@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
-const Contact = require("../models/Contact");
+const Volunteer = require("../models/Volunteer");
 
 router.get("/", async (req, res, next) => {
   try {
-    const apiRes = await Contact.find();
+    const apiRes = await Volunteer.find();
     res.status(200).json(apiRes);
   } catch (err) {
     res.status(500).json(err);
@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const apiRes = await Contact.findById(req.params.id);
+    const apiRes = await Volunteer.findById(req.params.id);
     res.status(200).json(apiRes);
   } catch (err) {
     res.status(500).json(err);
@@ -22,9 +22,8 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    // console.log(req.body);
-    const newContact = req.body;
-    const apiRes = await Contact.create(newContact);
+    const newVolunteer = req.body;
+    const apiRes = await Volunteer.create(newVolunteer);
     res.status(201).json(apiRes);
   } catch (err) {
     res.status(500).json(err);
@@ -33,8 +32,8 @@ router.post("/", async (req, res, next) => {
 
 router.patch("/:id", async (req, res, next) => {
   try {
-    const updatedContact = req.body;
-    const apiRes = await Contact.findByIdAndUpdate(req.params.id, updatedContact, {
+    const updatedVolunteer = req.body;
+    const apiRes = await Volunteer.findByIdAndUpdate(req.params.id, updatedVolunteer, {
       new: true,
     });
     res.status(200).json(apiRes);
@@ -45,7 +44,7 @@ router.patch("/:id", async (req, res, next) => {
 
 router.delete("/:id", async (req, res, next) => {
   try {
-    const apiRes = await Contact.findByIdAndDelete(req.params.id);
+    const apiRes = await Volunteer.findByIdAndDelete(req.params.id);
     res.status(204).json(apiRes);
   } catch (err) {
     res.status(500).json(err);
