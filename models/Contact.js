@@ -59,7 +59,7 @@ const ContactSchema = new Schema({
   },
   isTime: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   creator: {
     type: Schema.Types.ObjectId,
