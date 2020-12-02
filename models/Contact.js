@@ -48,6 +48,19 @@ const ContactSchema = new Schema({
     ],
     default: "1 fois par semaine",
   },
+  time: {
+    type: String,
+    enum: [
+      "morning",
+      "afternoon",
+      "all",
+    ],
+    default: "all",
+  },
+  isTime: {
+    type: Boolean,
+    default: false,
+  },
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
