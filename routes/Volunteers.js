@@ -21,13 +21,31 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  try {
-    const newVolunteer = req.body;
-    const apiRes = await Volunteer.create(newVolunteer);
-    res.status(201).json(apiRes);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  // try {
+  //   const newVolunteer = req.body;
+  //   const apiRes = await Volunteer.create(newVolunteer);
+  //   res.status(201).json(apiRes);
+  // } catch (err) {
+  //   res.status(500).json(err);
+  // }
+
+  const { prenom, nom, email } = req.body;
+
+  Volunteer.findOne({ email })
+    .then((userDocument) => {
+      if (userDocument) {
+        return res.status(400).json({ message: "Email already taken" });
+      }
+
+      const newUser = { email, prenom, nom };
+
+      Volunteer.create(newUser)
+        .then((newUserDocument) => {
+          res.status(200).json(newUserDocument);
+        })
+        .catch(next);
+    })
+    .catch(next);
 });
 
 router.patch("/:id", async (req, res, next) => {
